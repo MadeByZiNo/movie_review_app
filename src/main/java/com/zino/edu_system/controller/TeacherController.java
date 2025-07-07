@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
 @RequestMapping("/teachers")
@@ -44,6 +45,21 @@ public class TeacherController {
     @PostMapping("/edit")
     public String edit(@ModelAttribute Teacher teacher) {
         teacherRepository.update(teacher);
+
+        return "redirect:/teachers";
+    }
+
+    @PostMapping("/delete/{id}")
+    public String delete(@PathVariable int id, RedirectAttributes redirectAttributes) {
+        try {
+            int affected = teacherRepository.deleteById(id);
+
+            if (affected == 0) {
+                System.out.println("Teacher not found.");
+            }
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "에러 발생\n " + e.getMessage());
+        }
 
         return "redirect:/teachers";
     }

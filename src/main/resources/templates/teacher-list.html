@@ -30,10 +30,11 @@
             <form th:action="@{'/teachers/delete/' + ${teacher.id}}" method="post" style="display:inline;">
                 <button type="submit">삭제</button>
             </form>
-            <div th:if="${error}" th:text="${error}" style="color:red;"></div>
         </td>
     </tr>
     </tbody>
 </table>
+<div th:if="${error}" th:text="${error}" style="color:red;"></div>
+
 </body>
 </html>

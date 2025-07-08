@@ -51,6 +51,13 @@ public class StudentController {
         return "student-form";
     }
 
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute Student student) {
+        studentRepository.update(student);
+
+        return "redirect:/students";
+    }
+
     @PostMapping("/delete/{id}")
     public String delete(@PathVariable int id) {
         studentRepository.deleteById(id);

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title th:text="${movie.title} + ' - 상세 정보'">영화 상세</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <style>
+        button:hover {
+            background-color: #4a5a94 !important;
+        }
+        .star-rating label {
+          font-size: 3.5rem;
+          color: #444;
+          cursor: pointer;
+        }
+        .star-rating:hover label {
+            color: #ffc107 !important;
+        }
+        .star-rating label:hover ~ label {
+            color: #444 !important;
+        }
+    </style>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1 th:text="${movie.title}">영화 제목</h1>
+    <p>개봉년도: <span th:text="${movie.releaseYear}">2020</span></p>
+
+    <p>
+        <span>평균 별점: </span>
+        <span th:each="i : ${#numbers.sequence(1, 5)}"
+              th:classappend="${i <= movie.averageRating} ? 'star filled' : 'star'"
+              class="star">★</span>
+        <span th:text="'(' + ${#numbers.formatDecimal(movie.averageRating, 1, 1)} + ')'"></span>
+    </p>
+</div>
+<hr/>
+<h2>리뷰 목록</h2>
+
+<div th:if="${#lists.isEmpty(movie.reviews)}">
+    <p>리뷰가 없습니다.</p>
+</div>
+
+<div th:each="review : ${movie.reviews}" class="review"
+     style="display:flex; justify-content: space-between; align-items: center;">
+    <div>
+        <span class="reviewer" th:text="${review.reviewer}">작성자명</span>
+        <span th:each="i : ${#numbers.sequence(1,5)}"
+              th:classappend="${i <= review.rating} ? 'star filled' : 'star'"
+              class="star">★</span>
+        <p th:text="${review.comment}">리뷰 내용</p>
+    </div>
+    <div style="margin-right: 20px;">
+        <form th:action="@{'/movies/' + ${movie.id} + '/reviews/edit'}" method="post" style="display:inline;">
+            <input type="hidden" name="id" th:value="${review.id}"/>
+            <input type="hidden" name="reviewer" th:value="${review.reviewer}"/>
+            <input type="hidden" name="rating" th:value="${review.rating}"/>
+            <input type="hidden" name="comment" th:value="${review.comment}"/>
+            <button type="submit" class="btn btn-danger">수정</button>
+        </form>
+
+        <form th:action="@{'/reviews/' + ${review.id} + '/delete'}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-danger">삭제</button>
+        </form>
+    </div>
+</div>
+<hr/>
+<span th:h2="${review.id} == null ? '리뷰 작성' : '리뷰 수정'"></span>
+<form th:action="${review.id} == null ? @{'/movies/' + ${movie.id} + '/reviews/add'} : @{'/reviews/edit'}"
+      th:object="${review}" method="post">
+
+    <input type="hidden" name="id" th:value="${review.id}"/>
+    <input type="hidden" name="movieId" th:value="${movie.id}"/>
+    <div style="margin-bottom: 1rem;">
+        <label for="reviewer" style="display: block; margin-bottom: 0.5rem;">작성자</label>
+        <input type="text" id="reviewer" th:field="*{reviewer}" placeholder="작성자 이름을 입력하세요" required
+               style="width: 100%; padding: 0.75rem; border: 1px solid #444; border-radius: 4px; box-sizing: border-box; background-color: #333; color: #e0e0e0; font-size: 1rem;">
+    </div>
+    <div class="star-rating">
+        <input type="radio" id="star1" name="rating" value="1" style="display:none"/>
+        <label for="star1">★</label>
+
+        <input type="radio" id="star2" name="rating" value="2" style="display:none"/>
+        <label for="star2">★</label>
+
+        <input type="radio" id="star3" name="rating" value="3" style="display:none"/>
+        <label for="star3">★</label>
+
+        <input type="radio" id="star4" name="rating" value="4" style="display:none"/>
+        <label for="star4">★</label>
+
+        <input type="radio" id="star5" name="rating" value="5" style="display:none"/>
+        <label for="star5">★</label>
+    </div>
+
+    <div style="margin-bottom: 1.5rem;">
+        <label for="comment" style="display: block; margin-bottom: 0.5rem;">리뷰 내용</label>
+        <textarea id="comment" th:field="*{comment}" rows="5" placeholder="영화에 대한 솔직한 리뷰를 남겨주세요." required
+                  style="width: 100%; padding: 0.75rem; border: 1px solid #444; border-radius: 4px; box-sizing: border-box; background-color: #333; color: #e0e0e0; font-size: 1rem; resize: vertical;"></textarea>
+    </div>
+    <button type="submit"
+            style="width: 100%; padding: 0.75rem; background-color: #6275cb; color: white; border: none; border-radius: 4px; cursor: pointer; font-size: 1.1rem; font-weight: bold;"
+            th:text="${review.id} == null ? '리뷰 등록' : '리뷰 수정'">
+    </button>
+</form>
+<p>
+    <a href="/movies">← 목록으로 돌아가기</a>
+</p>
+<script>
+    const stars = document.querySelectorAll('.star-rating label');
+    stars.forEach((star, idx) => {
+      star.addEventListener('click', () => {
+        stars.forEach((s, i) => {
+          s.style.color = i <= idx ? '#ffc107' : '#444';
+        });
+      });
+    });
+</script>
+</body>
+</html>

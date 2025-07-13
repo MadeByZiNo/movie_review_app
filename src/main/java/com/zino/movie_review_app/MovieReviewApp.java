@@ -1,13 +1,13 @@
-package com.zino.edu_system;
+package com.zino.movie_review_app;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class EduSystemApplication {
+public class MovieReviewApp {
 
 	public static void main(String[] args) {
-		SpringApplication.run(EduSystemApplication.class, args);
+		SpringApplication.run(MovieReviewApp.class, args);
 	}
 
 }

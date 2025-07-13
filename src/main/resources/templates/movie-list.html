@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>🎬 영화 목록</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
+</head>
+<body>
+<div style="text-align: center;">
+    <h1>🎬 영화 목록</h1>
+    <p>
+        <a href="/">🏠 홈으로</a>
+        <a href="/movies/add">➕ 영화 등록</a>
+    </p>
+</div>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>제목</th>
+        <th>개봉년도</th>
+        <th>평균 별점</th>
+        <th>액션</th>
+    </tr>
+    </thead>
+    <tbody th:each="movie : ${movieList}">
+    <tr>
+        <td th:text="${movie.id}"></td>
+        <td><a th:href="@{'/movies/' + ${movie.id}}" th:text="${movie.title}"></a></td>
+        <td th:text="${movie.releaseYear}"></td>
+        <td>
+            <span th:each="i : ${#numbers.sequence(1, 5)}"
+                  th:classappend="${i <= movie.averageRating} ? 'star filled' : 'star'"
+                  class="star">★</span>
+            <span th:text="'(' + ${#numbers.formatDecimal(movie.averageRating, 1, 1)} + ')'"></span>
+        </td>
+        <td>
+            <a th:href="@{'/movies/' + ${movie.id} + '/edit'}" class="btn">수정</a>
+            <form th:action="@{'/movies/' + ${movie.id} + '/delete'}" method="post" style="display:inline;">
+                <button type="submit">삭제</button>
+            </form>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

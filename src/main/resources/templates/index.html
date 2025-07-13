@@ -1,20 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>프로젝트 소개</title>
-  <link rel="stylesheet" th:href="@{/styles.css}"/>
+    <meta charset="UTF-8">
+    <title>영화 리뷰 앱</title>
+    <link rel="stylesheet" th:href="@{/styles.css}"/>
 </head>
 <body>
-<h1>👋 학생·교사 관리 시스템</h1>
-<p>이 애플리케이션은 교사(Teacher)와 학생(Student)의 기본 CRUD 기능을 제공합니다.</p>
-<ul>
-  <li>
-    <a href="/teachers">교사 관리</a>
-  </li>
-  <li>
-    <a href="/students">학생 관리</a>
-  </li>
-</ul>
+<div style="text-align: center;">
+    <h1>📺 영화 리뷰 앱</h1>
+    <ul>
+        <li>
+            <a href="/movies">
+                <img th:src="@{/images/start.png}" width="1000" height="600">
+            </a>
+        </li>
+    </ul>
+</div>
 </body>
 </html>

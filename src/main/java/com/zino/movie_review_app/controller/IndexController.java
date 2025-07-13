@@ -1,4 +1,4 @@
-package com.zino.edu_system.controller;
+package com.zino.movie_review_app.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;

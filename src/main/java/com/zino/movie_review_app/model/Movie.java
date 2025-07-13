@@ -1,4 +1,4 @@
-package com.zino.edu_system.model;
+package com.zino.movie_review_app.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,7 +9,8 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class Teacher {
+public class Movie {
     private Integer id;
-    private String name;
+    private String title;
+    private Integer releaseYear;
 }

@@ -59,7 +59,9 @@ public class MovieRepository {
     public List<MovieSummaryDto> findAllWithAverageRating() {
         String sql = "SELECT m.id, m.title, m.release_year, mar.avg_rating, mar.review_count " +
                 "FROM movies m " +
-                "LEFT JOIN movie_average_rating mar ON m.id = mar.movie_id";
+                "LEFT JOIN movie_average_rating mar ON m.id = mar.movie_id " +
+                "ORDER BY m.id DESC";
+        ;
 
         return jdbcTemplate.query(sql, movieSummaryDtoRowMapper);
     }
